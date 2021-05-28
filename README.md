@@ -71,10 +71,11 @@ func main() {
 	fmt.Println("sfmtFs   : ", sfmtFs)
 
 	// MTintShuffle shuffles a slice of integers using Mersenne Twister algorithm.
+	fmt.Println("\nMTintShuffle After & Before")
+	fmt.Println("sfmtINTs     : ", sfmtINTs)
 	gosfmt.MTintShuffle(sfmtINTs)
-	fmt.Println("sfmtINTs : ", sfmtINTs)
+	fmt.Println("MTintShuffle : ", sfmtINTs)
 }
-
 ```
 
 Output:
@@ -84,5 +85,8 @@ sfmtINT  :  1
 sfmtINTs :  [5 1 3 9 7 4 6 2 1 4]
 sfmtF    :  9.722344331392243
 sfmtFs   :  [1.9189275176601612 8.615983236661565 3.5797699181835085 4.093636478513859 3.8370310131668512 5.235095756892996 4.0630003969818675 5.4363333680139565 2.0028628090833234 7.933939616108609]
-sfmtINTs :  [1 6 4 4 3 5 7 1 2 9]
+
+MTintShuffle After & Before
+sfmtINTs     :  [5 1 3 9 7 4 6 2 1 4]
+MTintShuffle :  [1 6 4 4 3 5 7 1 2 9]
 ```
