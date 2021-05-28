@@ -7,7 +7,6 @@
 // Package dsfmt wraps the dSFMT Double precision SIMD-oriented Fast Mersenne Twister
 package dsfmt
 
-@@CGO@@
 import "C"
 
 import "time"

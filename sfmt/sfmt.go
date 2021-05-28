@@ -7,7 +7,6 @@
 // Package sfmt wraps the SFMT SIMD-oriented Fast Mersenne Twister
 package sfmt
 
-@@CGO@@
 import "C"
 
 import (
