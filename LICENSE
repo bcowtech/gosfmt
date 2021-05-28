@@ -14,7 +14,6 @@ All rights reserved.
 gosfmt is a pseudo random number generator(PRNG) based on SFMT. 
 It was originally implemented in golang by gosl. 
 Due to lightweight requirements, we only copy the rnd function from gosl.
-
 """
 Copyright (c) 2016, Dorival Pedroso. All rights reserved. 
 
