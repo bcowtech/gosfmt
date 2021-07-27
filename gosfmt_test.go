@@ -15,11 +15,14 @@ var (
 )
 
 func init() {
-	io.Verbose = true
+	io.Verbose = false
+	chk.Verbose = false
+	// verbose()
 }
 
 func verbose() {
 	io.Verbose = true
+	chk.Verbose = true
 }
 
 func Test_sfmt01_Int(t *testing.T) {
