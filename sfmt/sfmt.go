@@ -8,6 +8,8 @@ package sfmt
 /*
 #cgo CFLAGS: -O3 -fomit-frame-pointer -DNDEBUG -fno-strict-aliasing -std=c99 -msse2 -DHAVE_SSE2 -DSFMT_MEXP=19937
 #include "connectsfmt.h"
+#include "SFMT.h"
+#include "stdio.h"
 #ifdef WIN32
 #define LONG long long
 #else
@@ -16,41 +18,37 @@ package sfmt
 */
 import "C"
 
-import (
-	"time"
-	"unsafe"
+type SFMT19937 struct {
+	csfmt *C.sfmt_t
+}
 
-	"github.com/cpmech/gosl/io"
-)
-
-// Init initialises random numbers generator
-//  Input:
-//   seed -- seed value; use seed <= 0 to use current time
-func Init(seed int) {
-	if seed <= 0 {
-		seed = int(time.Now().Unix())
+func New() *SFMT19937 {
+	sfmt19937 := &SFMT19937{
+		csfmt: &C.sfmt_t{},
 	}
-	C.SfmtInit(C.LONG(seed))
+
+	sfmt19937.Seed(5489)
+	return sfmt19937
 }
 
-// Rand generates pseudo random integer between low and high
-//  Input:
-//   low  -- lower limit
-//   high -- upper limit
-//  Output:
-//   random integer
-func Rand(low, high int) int {
-	return int(C.SfmtRand(C.LONG(low), C.LONG(high)))
+// Seed uses the given 64bit value to initialise the generator state.
+// This method is part of the rand.Source interface.
+func (sfmt *SFMT19937) Seed(seed int64) {
+	C.Seed(sfmt.csfmt, C.LONG(seed))
 }
 
-// Shuffle shuffles slice of integers
-func Shuffle(values []int) {
-	C.SfmtShuffle((*C.LONG)(unsafe.Pointer(&values[0])), C.LONG(len(values)))
+// Uint64 generates a (pseudo-)random 64bit value.  The output can be
+// used as a replacement for a sequence of independent, uniformly
+// distributed samples in the range 0, 1, ..., 2^64-1.  This method is
+// part of the rand.Source64 interface.
+func (sfmt *SFMT19937) Uint64() uint64 {
+	return uint64(C.Uint64(sfmt.csfmt))
 }
 
-// PrintIDString prints SFMT id string
-func PrintIDString() {
-	if io.Verbose {
-		C.SfmtPrintIdString()
-	}
+// Int63 generates a (pseudo-)random 63bit value.  The output can be
+// used as a replacement for a sequence of independent, uniformly
+// distributed samples in the range 0, 1, ..., 2^63-1.  This method is
+// part of the rand.Source interface.
+func (sfmt *SFMT19937) Int63() int64 {
+	return int64(C.Uint64(sfmt.csfmt) & 0x7fffffffffffffff)
 }
